@@ -1,5 +1,5 @@
 body {
-  font-family: system-ui;
+  font-family: "Jost", sans-serif;
   background-image: url("https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg");
   background-repeat: no-repeat;
   background-size: cover;
@@ -7,4 +7,22 @@ body {
   background-attachment: fixed;
   color: white;
   text-align: center;
+}
+
+h1 {
+  font-size: 6vw
+}
+
+.card{
+  max-width: 750px;
+  padding: 15px;
+  margin: auto;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.avatar {
+  transform: none;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px
 }

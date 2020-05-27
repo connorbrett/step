@@ -15,6 +15,7 @@
 /**
  * Adds a random greeting to the page.
  */
+document.getElementsByTagName("h1")[0].style.fontSize = "6vw";
 function addRandomGreeting() {
   const greetings =
       ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
