@@ -1,50 +1,50 @@
 @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500|Jost:400,500,600&display=swap");
 body {
-	color: #2b2c48;
-	font-family: "Jost", sans-serif;
-	background-image: url("https://i.ibb.co/d6cWjLD/U-of-A-campus.png");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center;
-	background-attachment: fixed;
-	text-align: center;
-    padding: 2vw;
+  color: #2b2c48;
+  font-family: "Jost", sans-serif;
+  background-image: url("https://i.ibb.co/d6cWjLD/U-of-A-campus.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  text-align: center;
+  padding: 2vw;
 }
 
 a {
-	text-decoration: none;
-	color: #2b2c48;
+  text-decoration: none;
+  color: #2b2c48;
 }
 
 h1 {
-	font-size: 3vw;
+  font-size: 3vw;
 }
 
 .card {
-	max-width: 1000px;
-	padding: 15px;
-	margin: auto;
-	box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
-	border-radius: 10px;
-	display: flex;
-	flex-direction: column;
-	background: rgb(8, 186, 235);
-	background: linear-gradient(
-		180deg,
-		rgba(33, 125, 150, 1) 0%,
-		rgba(255, 255, 255, 1) 100%
-	);
+  max-width: 1000px;
+  padding: 15px;
+  margin: auto;
+  box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  background: rgb(8, 186, 235);
+  background: linear-gradient(
+    180deg,
+    rgba(33, 125, 150, 1) 0%,
+    rgba(255, 255, 255, 1) 100%
+  );
 }
 
 .avatar {
-	transform: none;
-	border-radius: 50%;
-	height: 150px;
-	width: 150px;
-	align-self: center;
+  transform: none;
+  border-radius: 50%;
+  height: 150px;
+  width: 150px;
+  align-self: center;
 }
 
 .icon {
-	width: 75px;
-	height: 75px;
+  width: 75px;
+  height: 75px;
 }
