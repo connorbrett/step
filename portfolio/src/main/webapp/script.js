@@ -11,38 +11,47 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
 /*
   Controls slideshow on page
 */
-var slideIndex = 1;
-showSlides(slideIndex);
 
-// Next/previous controls
-function plusSlides(n) {
-  showSlides((slideIndex += n));
+class slideShower {
+  constructor() {
+    this.currentIndex = 1;
+    this.slides = document.getElementsByClassName("slides");
+    this.dots = document.getElementsByClassName("dot");
+    this.showSlides(this.currentIndex);
+  }
+
+  showSlides(slideNum) {
+    let i;
+    if (slideNum > this.slides.length) {
+      this.currentIndex = 1;
+    }
+    if (slideNum < 1) {
+      this.currentIndex = this.slides.length;
+    }
+
+    for (let slide of this.slides) {
+      slide.style.display = "none";
+    }
+    for (let dot of this.dots) {
+      dot.className = dot.className.replace(" active", "");
+    }
+
+    this.slides[this.currentIndex - 1].style.display = "block";
+    this.dots[this.currentIndex - 1].className += " active";
+  }
+
+  changeSlides(amount) {
+    this.showSlides((this.currentIndex += amount));
+  }
+
+  // Thumbnail image controls
+  currentSlide(index) {
+    this.showSlides((this.currentIndex = index));
+  }
 }
 
-// Thumbnail image controls
-function currentSlide(n) {
-  showSlides((slideIndex = n));
-}
-
-function showSlides(n) {
-  var i;
-  var slides = document.getElementsByClassName("slides");
-  var dots = document.getElementsByClassName("dot");
-  if (n > slides.length) {
-    slideIndex = 1;
-  }
-  if (n < 1) {
-    slideIndex = slides.length;
-  }
-  for (i = 0; i < slides.length; i++) {
-    slides[i].style.display = "none";
-  }
-  for (i = 0; i < dots.length; i++) {
-    dots[i].className = dots[i].className.replace(" active", "");
-  }
-  slides[slideIndex - 1].style.display = "block";
-  dots[slideIndex - 1].className += " active";
-}
+const slides = new slideShower();
