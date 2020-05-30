@@ -12,16 +12,46 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+/*
+  Controls slideshow on page
+*/
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+class slideShower {
+  constructor() {
+    this.currentIndex = 1;
+    this.slides = document.getElementsByClassName("slides");
+    this.dots = document.getElementsByClassName("dot");
+    this.showSlides(this.currentIndex);
+  }
+
+  showSlides(slideNum) {
+    let i;
+    if (slideNum > this.slides.length) {
+      this.currentIndex = 1;
+    }
+    if (slideNum < 1) {
+      this.currentIndex = this.slides.length;
+    }
+
+    for (let slide of this.slides) {
+      slide.style.display = "none";
+    }
+    for (let dot of this.dots) {
+      dot.className = dot.className.replace(" active", "");
+    }
+
+    this.slides[this.currentIndex - 1].style.display = "block";
+    this.dots[this.currentIndex - 1].className += " active";
+  }
+
+  changeSlides(amount) {
+    this.showSlides((this.currentIndex += amount));
+  }
+
+  // Thumbnail image controls
+  currentSlide(index) {
+    this.showSlides((this.currentIndex = index));
+  }
 }
+
+const slides = new slideShower();
