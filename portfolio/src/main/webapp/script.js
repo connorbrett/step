@@ -16,6 +16,12 @@
   Controls slideshow on page
 */
 
+function getMessage() {
+  fetch('/data').then(response => response.text()).then(msg => {
+    document.getElementById('msg-container').innerText = "Current message: " + msg;
+  });
+}
+
 class slideShower {
   constructor() {
     this.currentIndex = 1;
