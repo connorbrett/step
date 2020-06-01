@@ -17,7 +17,7 @@
 */
 
 function getMessage() {
-  fetch('/data').then(response => response.text()).then(msg => {
+  fetch('/data').then(response => response.json()).then(msg => {
     document.getElementById('msg-container').innerText = "Current message: " + msg;
   });
 }
