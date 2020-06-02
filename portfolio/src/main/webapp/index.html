@@ -12,7 +12,6 @@
 
   <div class="card">
     <h1>Connor's Portfolio</h1>
-    <div id="msg-container">Current Message: </div>
     <img class="avatar" src="https://i.imgur.com/AW18kUT.png" alt="avatar" />
     <p>My name is Connor and I am a rising junior at University of Arizona studying Computer Science.</p>
     <h2>Background</h2>
@@ -74,14 +73,24 @@
       <a class="next" onclick="slides.changeSlides(1)">❯</a>
     </div>
     <br>
-
     <div>
       <span class="dot" onclick="slides.currentSlide(1)"></span>
       <span class="dot" onclick="slides.currentSlide(2)"></span>
       <span class="dot" onclick="slides.currentSlide(3)"></span>
       <span class="dot" onclick="slides.currentSlide(4)"></span>
     </div>
+    <br>
+    <h2>Comments</h2>
+    <form action="/data" method="POST">
+      
+      <label for="comment">Comment:</label>
+      <textarea name="comment"></textarea>
+      <br>
+      <input type="submit" />
+      <div id="msg-container">Comments: </div>
+    </form>
+
   </div>
-</body>
+  </body>
 
 </html>

@@ -27,14 +27,24 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private final ArrayList<String> comments = new ArrayList<>();
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    ArrayList<String> messages = new ArrayList<String>();
-    messages.add("Message 1");
-    messages.add("Message 2");
-    messages.add("Message 3");
     Gson gson = new Gson();
     response.setContentType("text/html;");
-    response.getWriter().println(gson.toJson(messages));
+    response.getWriter().println(gson.toJson(comments));
+  }
+
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+      String comment = request.getParameter("comment");
+      if (comment == null) {
+        response.sendError(400);
+        return;
+      } else if (!comment.isEmpty()) {
+        comments.add(comment);
+      }
+      response.sendRedirect("/index.html");
   }
 }
