@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> comments = new ArrayList<String>();
+  private final ArrayList<String> comments = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -39,7 +39,12 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
       String comment = request.getParameter("comment");
-      comments.add(comment);
+      if(comment == null) {
+        response.sendError(400);
+        return;
+      } else if(!comment.isEmpty()) {
+        comments.add(comment);
+      }
       response.sendRedirect("/index.html");
   }
 }
