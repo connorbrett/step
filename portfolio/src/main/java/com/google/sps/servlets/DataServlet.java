@@ -39,10 +39,10 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
       String comment = request.getParameter("comment");
-      if(comment == null) {
+      if (comment == null) {
         response.sendError(400);
         return;
-      } else if(!comment.isEmpty()) {
+      } else if (!comment.isEmpty()) {
         comments.add(comment);
       }
       response.sendRedirect("/index.html");
