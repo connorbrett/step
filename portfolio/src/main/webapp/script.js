@@ -19,8 +19,10 @@
 function getMessage() {
   fetch('/data').then(response => response.json()).then(msg => {
     let comments = "Comments: \n";
+    let properties;
     for (let comment of msg){
-      comments += comment + "\n";
+      properties = comment.propertyMap;
+      comments += properties.name + ": " + properties.comment + "\n";
     }
     document.getElementById('msg-container').innerText = comments;
   });

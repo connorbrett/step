@@ -16,6 +16,13 @@ package com.google.sps.servlets;
 
 import com.google.gson.Gson;
 import java.util.ArrayList;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.FetchOptions;
 
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
@@ -27,23 +34,34 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private final ArrayList<String> comments = new ArrayList<>();
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    PreparedQuery results = datastore.prepare(query);
     Gson gson = new Gson();
-    response.setContentType("text/html;");
-    response.getWriter().println(gson.toJson(comments));
+    response.setContentType("application/json;");
+    response.getWriter().println(gson.toJson(results.asList(FetchOptions.Builder.withLimit(10))));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      String comment = request.getParameter("comment");
-      if (comment == null) {
+      String name = request.getParameter("fname");
+      String comment = request.getParameter("comment");  
+      long timestamp = System.currentTimeMillis();    
+
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("name", name);
+      commentEntity.setProperty("comment", comment);
+      commentEntity.setProperty("timestamp", timestamp);
+      
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+      if (comment == null || name == null) {
         response.sendError(400);
         return;
       } else if (!comment.isEmpty()) {
-        comments.add(comment);
+        datastore.put(commentEntity);
       }
       response.sendRedirect("/index.html");
   }
