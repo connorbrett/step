@@ -29,6 +29,10 @@ function getMessage() {
   });
 }
 
+function deleteComments() {
+  
+}
+
 class slideShower {
   constructor() {
     this.currentIndex = 1;
