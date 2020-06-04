@@ -43,10 +43,15 @@ public class DataServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     int maxComments;
-    if(maxCommentsString == null) {
+    if (maxCommentsString == null) {
       maxComments = 5;
     } else {
-      maxComments = Integer.parseInt(maxCommentsString);
+      try {
+        maxComments = Integer.parseInt(maxCommentsString);
+      } catch (NumberFormatException e) {
+        double val = Double.parseDouble(maxCommentsString);
+        maxComments = (int)(Math.floor(val));
+      }
     }
     Gson gson = new Gson();
     response.setContentType("application/json;");
@@ -55,24 +60,24 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-      String name = request.getParameter("fname");
-      String comment = request.getParameter("comment");  
-      long timestamp = System.currentTimeMillis();
-      maxCommentsString = request.getParameter("max-comments");
+    String name = request.getParameter("fname");
+    String comment = request.getParameter("comment");  
+    long timestamp = System.currentTimeMillis();
+    maxCommentsString = request.getParameter("max-comments");
 
-      Entity commentEntity = new Entity("Comment");
-      commentEntity.setProperty("name", name);
-      commentEntity.setProperty("comment", comment);
-      commentEntity.setProperty("timestamp", timestamp);
-      
-      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("comment", comment);
+    commentEntity.setProperty("timestamp", timestamp);
+    
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-      if (comment == null || name == null) {
-        response.sendError(400);
-        return;
-      } else if (!comment.isEmpty() && !name.isEmpty()) {
-        datastore.put(commentEntity);
-      }
-      response.sendRedirect("/index.html");
+    if (comment == null || name == null) {
+      response.sendError(400);
+      return;
+    } else if (!comment.isEmpty() && !name.isEmpty()) {
+      datastore.put(commentEntity);
+    }
+    response.sendRedirect("/index.html");
   }
 }
