@@ -25,7 +25,6 @@ function getMessage() {
       comments += properties.name + ": " + properties.comment + "\n";
     }
     document.getElementById('msg-container').innerText = comments;
-    document.getElementById('max-comments').value = msg.length;
   });
 }
 

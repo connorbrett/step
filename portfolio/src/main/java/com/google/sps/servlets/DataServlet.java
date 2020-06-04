@@ -46,7 +46,12 @@ public class DataServlet extends HttpServlet {
     if (maxCommentsString == null) {
       maxComments = 5;
     } else {
-      maxComments = Integer.parseInt(maxCommentsString);
+      try {
+        maxComments = Integer.parseInt(maxCommentsString);
+      } catch (NumberFormatException e) {
+        double val = Double.parseDouble(maxCommentsString);
+        maxComments = (int)(Math.floor(val));
+      }
     }
     Gson gson = new Gson();
     response.setContentType("application/json;");
