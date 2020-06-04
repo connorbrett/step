@@ -20,11 +20,12 @@ function getMessage() {
   fetch('/data').then(response => response.json()).then(msg => {
     let comments = "Comments: \n";
     let properties;
-    for (let comment of msg){
+    for (let comment of msg) {
       properties = comment.propertyMap;
       comments += properties.name + ": " + properties.comment + "\n";
     }
     document.getElementById('msg-container').innerText = comments;
+    document.getElementById('max-comments').value = msg.length;
   });
 }
 

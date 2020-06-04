@@ -160,3 +160,7 @@ h1 {
     opacity: 1;
   }
 }
+
+.max-comments {
+  width: 40px;
+}

@@ -34,21 +34,31 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
+  private String maxCommentsString;
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
+
+    int maxComments;
+    if(maxCommentsString == null) {
+      maxComments = 5;
+    } else {
+      maxComments = Integer.parseInt(maxCommentsString);
+    }
     Gson gson = new Gson();
     response.setContentType("application/json;");
-    response.getWriter().println(gson.toJson(results.asList(FetchOptions.Builder.withLimit(10))));
+    response.getWriter().println(gson.toJson(results.asList(FetchOptions.Builder.withLimit(maxComments))));
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
       String name = request.getParameter("fname");
       String comment = request.getParameter("comment");  
-      long timestamp = System.currentTimeMillis();    
+      long timestamp = System.currentTimeMillis();
+      maxCommentsString = request.getParameter("max-comments");
 
       Entity commentEntity = new Entity("Comment");
       commentEntity.setProperty("name", name);
@@ -60,7 +70,7 @@ public class DataServlet extends HttpServlet {
       if (comment == null || name == null) {
         response.sendError(400);
         return;
-      } else if (!comment.isEmpty()) {
+      } else if (!comment.isEmpty() && !name.isEmpty()) {
         datastore.put(commentEntity);
       }
       response.sendRedirect("/index.html");
