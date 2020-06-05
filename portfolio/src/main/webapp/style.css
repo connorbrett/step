@@ -168,3 +168,8 @@ h1 {
 .delete-button {
   width: 150px;
 }
+
+.comments {
+  text-align: left;
+  padding: 50px;
+}
