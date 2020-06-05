@@ -16,20 +16,30 @@
   Controls slideshow on page
 */
 
-function getMessage() {
-  fetch('/data').then(response => response.json()).then(msg => {
-    let comments = "Comments: \n";
-    let properties;
-    for (let comment of msg) {
-      properties = comment.propertyMap;
-      comments += properties.name + ": " + properties.comment + "\n";
-    }
-    document.getElementById('msg-container').innerText = comments;
-  });
+function getComments() {
+  let maxComments = document.getElementById('max-comments').value;
+  fetch('/data?maxComments=' + maxComments)
+    .then(response => response.json())
+    .then(msg => {
+      let comments = "Comments: \n";
+      let properties;
+      for (let comment of msg) {
+        properties = comment.propertyMap;
+        comments += properties.name + ": " + properties.comment + "\n";
+      }
+      document.getElementById('msg-container').innerText = comments;
+      document.getElementById('max-comments').value = maxComments;
+    });
 }
 
 function deleteComments() {
-  
+  fetch('/delete-data', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: ''
+  }).then(response => getComments());
 }
 
 class slideShower {

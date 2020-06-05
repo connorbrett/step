@@ -34,24 +34,18 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private String maxCommentsString;
-
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
+    String maxCommentsString = request.getParameter("maxComments");
 
     int maxComments;
-    if (maxCommentsString == null) {
+    if (maxCommentsString == null || maxCommentsString.isEmpty()) {
       maxComments = 5;
     } else {
-      try {
-        maxComments = Integer.parseInt(maxCommentsString);
-      } catch (NumberFormatException e) {
-        double val = Double.parseDouble(maxCommentsString);
-        maxComments = (int)(Math.floor(val));
-      }
+      maxComments = Integer.parseInt(maxCommentsString);
     }
     Gson gson = new Gson();
     response.setContentType("application/json;");
@@ -63,7 +57,6 @@ public class DataServlet extends HttpServlet {
     String name = request.getParameter("fname");
     String comment = request.getParameter("comment");  
     long timestamp = System.currentTimeMillis();
-    maxCommentsString = request.getParameter("max-comments");
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("name", name);
