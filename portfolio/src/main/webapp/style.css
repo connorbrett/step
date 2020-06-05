@@ -164,3 +164,7 @@ h1 {
 .max-comments {
   width: 40px;
 }
+
+.delete-button {
+  width: 150px;
+}
