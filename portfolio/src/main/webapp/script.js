@@ -21,15 +21,19 @@ function getComments() {
   fetch('/data?maxComments=' + maxComments)
     .then(response => response.json())
     .then(msg => {
-      let comments = "Comments: \n";
       let properties;
       for (let comment of msg) {
         properties = comment.propertyMap;
-        comments += properties.name + ": " + properties.comment + "\n";
+        document.getElementById('msg-container').appendChild(createCommentElement(properties.name, properties.comment));
       }
-      document.getElementById('msg-container').innerText = comments;
       document.getElementById('max-comments').value = maxComments;
     });
+}
+
+function createCommentElement(name, comment){
+  const divElement = document.createElement('div');
+  divElement.innerText = `Name: ${name}\nComment: ${comment}\n\n`;
+  return divElement;
 }
 
 function deleteComments() {
