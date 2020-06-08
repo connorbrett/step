@@ -173,3 +173,10 @@ h1 {
   text-align: left;
   padding: 50px;
 }
+
+#map {
+  border: thin solid black;
+  height: 500px;
+  width: 1000px;
+  text-align: center;
+}

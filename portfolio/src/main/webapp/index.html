@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <title>Connor's Portfolio</title>
   <link rel="stylesheet" href="style.css">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBTLLpFbDtVnUOs0KSEiqBUpq5Dod85Nps"></script>
   <script async defer src="script.js"></script>
 </head>
 
-<body onload="getComments()">
+<body onload="getComments(); createMap();">
 
   <div class="card">
     <h1>Connor's Portfolio</h1>
@@ -96,6 +97,11 @@
       <br>
       <button type="button" id="delete-button" onclick="deleteComments()">Delete Comments</button>
     </div>
+  </div>
+  <br>
+  <div class="card">
+    <h1>Map</h1>
+    <div id="map"></div>
   </div>
   </body>
 </html>
