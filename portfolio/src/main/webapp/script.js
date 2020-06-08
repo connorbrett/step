@@ -24,17 +24,15 @@ function getComments() {
       let properties;
       for (let comment of msg) {
         properties = comment.propertyMap;
-        //comments += createCommentElement(properties.name, properties.comment);
         document.getElementById('msg-container').appendChild(createCommentElement(properties.name, properties.comment));
       }
-      //document.getElementById('msg-container').innerText = comments;
       document.getElementById('max-comments').value = maxComments;
     });
 }
 
 function createCommentElement(name, comment){
-  let divElement = document.createElement('div');
-  divElement.innerText = "Name: " + name + "\nComment: " + comment + "\n\n";
+  const divElement = document.createElement('div');
+  divElement.innerText = `Name: ${name}\nComment: ${comment}\n\n`;
   return divElement;
 }
 
