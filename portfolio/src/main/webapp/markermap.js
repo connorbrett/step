@@ -1,3 +1,21 @@
+// Copyright 2020 Google LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     https://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+/**
+ *Handles creating and storing markers on the map
+ */
+
 class MarkerMap {
   constructor(){
     this.map;
@@ -103,11 +121,14 @@ class MarkerMap {
 
   /** Fetches markers from the backend and adds them to the map. */
   fetchMarkers() {
-    fetch('/markers').then(response => response.json()).then((markers) => {
-      markers.forEach(
-        (marker) => {
+    fetch('/markers')
+      .then(response => response.json())
+      .then((markers) => {
+        markers.forEach(
+          (marker) => {
           this.createMarkerForDisplay(marker.lat, marker.lng, marker.content)
-        });
+          }
+        );
     });
   }
 
@@ -129,7 +150,8 @@ class MarkerMap {
     params.append('lng', lng);
     params.append('content', content);
 
-    fetch('/markers', { method: 'POST', body: params });
+    fetch('/markers', { method: 'POST', body: params })
+      .then( () => this.fetchMarkers());
   }
 
   /** Creates a marker that shows a textbox the user can edit. */
@@ -164,7 +186,6 @@ class MarkerMap {
 
     button.onclick = () => {
       this.postMarker(lat, lng, textBox.value);
-      this.createMarkerForDisplay(lat, lng, textBox.value);
       this.editMarker.setMap(null);
     };
 

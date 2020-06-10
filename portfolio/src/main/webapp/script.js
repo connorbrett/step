@@ -12,10 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/*
-  Controls slideshow on page
-*/
-
 function getComments() {
   let maxComments = document.getElementById('max-comments').value;
   fetch('/data?maxComments=' + maxComments)
@@ -45,6 +41,10 @@ function deleteComments() {
     body: ''
   }).then(response => getComments());
 }
+
+/*
+  Controls slideshow on page
+*/
 
 class slideShower {
   constructor() {
