@@ -42,9 +42,9 @@ function deleteComments() {
   }).then(response => getComments());
 }
 
-/*
-  Controls slideshow on page
-*/
+/**
+ *Controls slideshow on page
+ */
 
 class slideShower {
   constructor() {

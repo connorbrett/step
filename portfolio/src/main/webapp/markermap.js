@@ -151,7 +151,7 @@ class MarkerMap {
     params.append('content', content);
 
     fetch('/markers', { method: 'POST', body: params })
-      .then( () => this.fetchMarkers());
+      .then(() => this.fetchMarkers());
   }
 
   /** Creates a marker that shows a textbox the user can edit. */
