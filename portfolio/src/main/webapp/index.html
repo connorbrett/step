@@ -7,9 +7,12 @@
   <link rel="stylesheet" href="style.css">
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD6t_TlI99a_VLyx5G8l-qlXt27lg5sv9s"></script>
   <script async defer src="script.js"></script>
+  <script async defer src="markermap.js"></script>
+  <script async defer src="chart.js"></script>
+  <script src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 
-<body onload="getComments(); createMap();">
+<body onload="getComments(); markerMap.createMap();">
 
   <div class="card">
     <h1>Connor's Portfolio</h1>
@@ -104,5 +107,10 @@
     <div id="map"></div>
     <button type="button" class="delete-button" id="delete-markers" onlick="deleteMarkers()">Delete Markers</button>
   </div>
+  <br>
+  <div class="card">
+    <h1>Chart</h1>
+    <div id="chart-container"></div>
+  </div>  
   </body>
 </html>
