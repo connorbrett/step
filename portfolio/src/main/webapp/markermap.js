@@ -132,6 +132,18 @@ class MarkerMap {
     });
   }
 
+  /** Deletes markers from the backend */
+  deleteMarkers() {
+    console.log("delete markers js");
+    fetch('/delete-markers', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: ''
+    }).then(response => this.fetchMarkers());
+  }
+
   /** Creates a marker that shows a read-only info window when clicked. */
   createMarkerForDisplay(lat, lng, content) {
     const marker =
