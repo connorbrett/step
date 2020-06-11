@@ -178,5 +178,11 @@ h1 {
   border: thin solid black;
   height: 500px;
   width: 1000px;
+  margin: auto;
+  text-align: center;
+}
+
+#chart-container {
+  margin: auto;
   text-align: center;
 }
