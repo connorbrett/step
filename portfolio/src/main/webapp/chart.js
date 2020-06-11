@@ -23,22 +23,22 @@ function drawChart() {
   const data = new google.visualization.DataTable();
   data.addColumn('string', 'Activity');
   data.addColumn('number', 'Hours');
-        data.addRows([
-          ['Sleep', 7],
-          ['Eat', 3],
-          ['Work', 8],
-          ['Exercise', 1],
-          ['Video Games', 3],
-          ['YouTube', 2]
-        ]);
+  data.addRows([
+    ['Sleep', 7],
+    ['Eat', 3],
+    ['Work', 8],
+    ['Exercise', 1],
+    ['Video Games', 3],
+    ['YouTube', 2],
+  ]);
 
   const options = {
     'title': 'How I Spend My Time',
-    'width':500,
-    'height':400
+    'width': 500,
+    'height': 400,
   };
 
   const chart = new google.visualization.PieChart(
-      document.getElementById('chart-container'));
+    document.getElementById('chart-container'));
   chart.draw(data, options);
 }
