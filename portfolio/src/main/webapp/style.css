@@ -167,6 +167,7 @@ h1 {
 
 .delete-button {
   width: 150px;
+  margin: auto;
 }
 
 .comments {
@@ -179,4 +180,8 @@ h1 {
   height: 500px;
   width: 1000px;
   text-align: center;
+}
+
+.delete-markers {
+  width: 150px;
 }
