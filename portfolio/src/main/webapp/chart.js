@@ -12,11 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/**
+ *Creates a chart and adds it to the page.
+ */
 
 google.charts.load('current', {'packages':['corechart']});
 google.charts.setOnLoadCallback(drawChart);
 
-/** Creates a chart and adds it to the page. */
 function drawChart() {
   const data = new google.visualization.DataTable();
   data.addColumn('string', 'Activity');
