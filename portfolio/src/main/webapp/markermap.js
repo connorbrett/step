@@ -126,7 +126,6 @@ class MarkerMap {
       .then((markers) => {
         markers.forEach(
           (marker) => {
-            console.log(marker);
             this.createMarkerForDisplay(marker.lat, marker.lng, marker.content, marker.id);
           }
         );
@@ -141,7 +140,7 @@ class MarkerMap {
         'Content-Type' : 'application/json',
       },
       body: ''
-    }).then(response => this.fetchMarkers());
+    }).then(() => this.fetchMarkers());
   }
 
   /** Creates a marker that shows a read-only info window when clicked. */
@@ -154,12 +153,7 @@ class MarkerMap {
       infoWindow.open(this.map, marker);
     });
 
-    marker.addListener('contextmenu', () => {
-      console.log(`contextmenu: ${id}`);
-    });
-
     marker.addListener('dblclick', () => {
-      console.log(`dblclick: ${id}`);
       fetch('/delete-marker?id=' + id, {
         method: 'POST',
         headers: {
