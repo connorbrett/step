@@ -21,7 +21,6 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
 import java.util.ArrayList;
 
 import java.io.IOException;
@@ -30,22 +29,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that deletes an individual marker from datastore DB */
-@WebServlet("/delete-marker")
-public class DeleteMarkerServlet extends HttpServlet {
+/** Servlet that deletes all markers from datastore DB */
+@WebServlet("/delete-markers")
+public class BatchDeleteMarkerServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    long id;
-    try {
-      id = Long.parseLong(request.getParameter("id"));
-    } catch (Exception e) {
-      response.sendError(400);
-      return;
+    Query query = new Query("Marker");
+    PreparedQuery results = datastore.prepare(query);
+    ArrayList<Key> keys = new ArrayList<>();
+    for (Entity entity : results.asIterable()) {
+      keys.add(entity.getKey());
     }
-    Key key = KeyFactory.createKey("Marker", id);
-    datastore.delete(key);
+    datastore.delete(keys);
     response.sendRedirect("/index.html");
   }
 }

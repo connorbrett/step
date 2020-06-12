@@ -126,7 +126,8 @@ class MarkerMap {
       .then((markers) => {
         markers.forEach(
           (marker) => {
-          this.createMarkerForDisplay(marker.lat, marker.lng, marker.content)
+            console.log(marker);
+            this.createMarkerForDisplay(marker.lat, marker.lng, marker.content, marker.id);
           }
         );
     });
@@ -134,7 +135,6 @@ class MarkerMap {
 
   /** Deletes markers from the backend */
   deleteMarkers() {
-    console.log("delete markers js");
     fetch('/delete-markers', {
       method: 'POST',
       headers: {
@@ -145,13 +145,28 @@ class MarkerMap {
   }
 
   /** Creates a marker that shows a read-only info window when clicked. */
-  createMarkerForDisplay(lat, lng, content) {
+  createMarkerForDisplay(lat, lng, content, id) {
     const marker =
       new google.maps.Marker({ position: { lat: lat, lng: lng }, map: this.map });
 
     const infoWindow = new google.maps.InfoWindow({ content: content });
     marker.addListener('click', () => {
       infoWindow.open(this.map, marker);
+    });
+
+    marker.addListener('contextmenu', () => {
+      console.log(`contextmenu: ${id}`);
+    });
+
+    marker.addListener('dblclick', () => {
+      console.log(`dblclick: ${id}`);
+      fetch('/delete-marker?id=' + id, {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: ''
+      }).then(response => this.fetchMarkers());
     });
   }
 
