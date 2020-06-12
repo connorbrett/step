@@ -20,6 +20,7 @@ class MarkerMap {
   constructor(){
     this.map;
     this.editMarker;
+    this.markers = [];
   }
 
   createMap() {
@@ -124,9 +125,12 @@ class MarkerMap {
     fetch('/markers')
       .then(response => response.json())
       .then((markers) => {
+        for(let marker of this.markers) {
+          marker.setMap(null);
+        }
         markers.forEach(
           (marker) => {
-            this.createMarkerForDisplay(marker.lat, marker.lng, marker.content, marker.id);
+            this.markers.push(this.createMarkerForDisplay(marker.lat, marker.lng, marker.content, marker.id));
           }
         );
     });
@@ -140,7 +144,9 @@ class MarkerMap {
         'Content-Type' : 'application/json',
       },
       body: ''
-    }).then(() => this.fetchMarkers());
+    }).then(() => {
+      this.fetchMarkers();
+    });
   }
 
   /** Creates a marker that shows a read-only info window when clicked. */
@@ -162,6 +168,7 @@ class MarkerMap {
         body: ''
       }).then(response => this.fetchMarkers());
     });
+    return marker;
   }
 
   /** Sends a marker to the backend for saving. */
