@@ -126,11 +126,9 @@ class MarkerMap {
       .then(response => response.json())
       .then((markers) => {
         for (let marker of this.markers) {
-          let index = this.markers.indexOf(marker);
-          this.markers.splice(index, 1);
           marker.setMap(null);
-
         }
+        this.markers = [];
         markers.forEach(
           (marker) => {
             this.markers.push(this.createMarkerForDisplay(marker.lat, marker.lng, marker.content, marker.id));
