@@ -20,6 +20,7 @@ class MarkerMap {
   constructor(){
     this.map;
     this.editMarker;
+    this.markers = [];
   }
 
   createMap() {
@@ -124,16 +125,33 @@ class MarkerMap {
     fetch('/markers')
       .then(response => response.json())
       .then((markers) => {
+        for (let marker of this.markers) {
+          marker.setMap(null);
+        }
+        this.markers = [];
         markers.forEach(
           (marker) => {
-          this.createMarkerForDisplay(marker.lat, marker.lng, marker.content)
+            this.markers.push(this.createMarkerForDisplay(marker.lat, marker.lng, marker.content, marker.id));
           }
         );
     });
   }
 
+  /** Deletes markers from the backend */
+  deleteMarkers() {
+    fetch('/delete-markers', {
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+      },
+      body: ''
+    }).then(() => {
+      this.fetchMarkers();
+    });
+  }
+
   /** Creates a marker that shows a read-only info window when clicked. */
-  createMarkerForDisplay(lat, lng, content) {
+  createMarkerForDisplay(lat, lng, content, id) {
     const marker =
       new google.maps.Marker({ position: { lat: lat, lng: lng }, map: this.map });
 
@@ -141,6 +159,17 @@ class MarkerMap {
     marker.addListener('click', () => {
       infoWindow.open(this.map, marker);
     });
+
+    marker.addListener('dblclick', () => {
+      fetch('/delete-marker?id=' + id, {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json',
+        },
+        body: ''
+      }).then(response => this.fetchMarkers());
+    });
+    return marker;
   }
 
   /** Sends a marker to the backend for saving. */

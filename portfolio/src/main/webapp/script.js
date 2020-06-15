@@ -18,6 +18,7 @@ function getComments() {
     .then(response => response.json())
     .then(msg => {
       let properties;
+      document.getElementById('msg-container').innerText = "";
       for (let comment of msg) {
         properties = comment.propertyMap;
         document.getElementById('msg-container').appendChild(createCommentElement(properties.name, properties.comment));

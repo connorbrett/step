@@ -75,8 +75,9 @@ public class MarkerServlet extends HttpServlet {
       double lat = (double) entity.getProperty("lat");
       double lng = (double) entity.getProperty("lng");
       String content = (String) entity.getProperty("content");
+      long id = (long) entity.getKey().getId();
 
-      Marker marker = new Marker(lat, lng, content);
+      Marker marker = new Marker(lat, lng, content, id);
       markers.add(marker);
     }
     return markers;
@@ -91,5 +92,6 @@ public class MarkerServlet extends HttpServlet {
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(markerEntity);
+    marker.setId((long) (markerEntity.getKey().getId()));
   }
 }

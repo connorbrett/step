@@ -167,6 +167,7 @@ h1 {
 
 .delete-button {
   width: 150px;
+  margin: auto;
 }
 
 .comments {
@@ -185,4 +186,8 @@ h1 {
 #chart-container {
   margin: auto;
   text-align: center;
+}
+
+.delete-markers {
+  width: 150px;
 }

@@ -20,11 +20,19 @@ public class Marker {
   private final double lat;
   private final double lng;
   private final String content;
+  private long id;
 
   public Marker(double lat, double lng, String content) {
     this.lat = lat;
     this.lng = lng;
     this.content = content;
+  }
+
+  public Marker(double lat, double lng, String content, long id) {
+    this.lat = lat;
+    this.lng = lng;
+    this.content = content;
+    this.id = id;
   }
 
   public double getLat() {
@@ -37,5 +45,13 @@ public class Marker {
 
   public String getContent() {
     return content;
+  }
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
   }
 }
