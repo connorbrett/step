@@ -125,8 +125,11 @@ class MarkerMap {
     fetch('/markers')
       .then(response => response.json())
       .then((markers) => {
-        for(let marker of this.markers) {
+        for (let marker of this.markers) {
+          let index = this.markers.indexOf(marker);
+          this.markers.splice(index, 1);
           marker.setMap(null);
+
         }
         markers.forEach(
           (marker) => {
