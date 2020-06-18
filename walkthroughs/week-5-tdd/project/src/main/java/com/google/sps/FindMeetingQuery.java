@@ -15,9 +15,99 @@
 package com.google.sps;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.HashSet;
+import com.google.common.collect.Sets; 
+import com.google.common.collect.Sets.SetView;
+import java.util.Set; 
+
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    throw new UnsupportedOperationException("TODO: Implement this method.");
+
+    HashSet<String> attendees = new HashSet<>(request.getAttendees());
+    HashSet<String> optAttendees = new HashSet<>(request.getOptionalAttendees());
+    HashSet<String> eventAttendees;
+
+    if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
+      return Arrays.asList();
+    }
+
+    // mandatory + optional attendees times
+    ArrayList<TimeRange> mandOptBusy = new ArrayList<>();
+
+    // mandatory attendees times
+    ArrayList<TimeRange> mandBusy = new ArrayList<>();
+
+    for (Event e : events) {
+      Set<String> meetingAttendees = e.getAttendees();
+      if (!Sets.intersection(attendees, meetingAttendees).isEmpty()) {
+        // If event contains at least one mandatory attendee, add it to list of busy times
+        mandOptBusy.add(e.getWhen());
+        mandBusy.add(e.getWhen());
+      } else {
+        // If event contains optional, but no mandatory attendees, add to opt list
+        SetView<String> optInMeeting = Sets.intersection(optAttendees, meetingAttendees);
+        if (optInMeeting.size() != 0) {
+          mandOptBusy.add(e.getWhen());
+        }
+      }
+    }
+
+    Collections.sort(mandOptBusy, TimeRange.ORDER_BY_START);
+    
+    // keep track of openings for MAN and MAN+OPT
+    ArrayList<TimeRange> mandOptOpenings = findOpenings(mandOptBusy, request.getDuration(), attendees);
+
+    if (mandOptOpenings.isEmpty() && !request.getAttendees().isEmpty()) {
+      // if no openings for mand + opt, return mand only
+      Collections.sort(mandBusy, TimeRange.ORDER_BY_START);
+      return findOpenings(mandBusy, request.getDuration(), attendees);
+    } else {
+      // if openings exist for both or only contains opt attendees, return those
+      return mandOptOpenings;
+    }
   }
+
+  private static ArrayList<TimeRange> findOpenings(ArrayList<TimeRange> busy, long duration, Set<String> attendees) {
+    
+    int startTime = 0; 
+    int endTime = 0;
+    TimeRange newRange;
+    TimeRange prevRange;
+    ArrayList<TimeRange> openings = new ArrayList<>();
+    for (TimeRange currRange : busy) {
+      
+      if (endTime < currRange.start()) {
+        endTime = currRange.start();
+      }
+      newRange = TimeRange.fromStartEnd(startTime, endTime, false);
+
+      if (openings.isEmpty()) {
+        addOpening(openings, newRange, duration);
+      } else {
+        prevRange = openings.get(openings.size() - 1);
+        if (!newRange.contains(prevRange)) {
+          addOpening(openings, newRange, duration);
+        }
+      }
+
+      if (startTime < currRange.end()) {
+        startTime = currRange.end();
+      }
+    }
+    endTime = TimeRange.END_OF_DAY;
+    newRange = TimeRange.fromStartEnd(startTime, endTime, true);
+    addOpening(openings, newRange, duration);
+    return openings;
+  }
+
+  private static void addOpening(ArrayList<TimeRange> openings, 
+    TimeRange currRange, long duration) {
+      if (currRange.duration() >= duration) {
+        openings.add(currRange);
+      } 
+    }
 }
