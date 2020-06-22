@@ -70,16 +70,16 @@ public final class FindMeetingQuery {
     return mandOptOpenings;
   }
 
+  /*
+  * Finds all potential open TimeRanges for a meeting
+  * Parameters:
+  * busy: contains all busy TimeRanges (sorted by startTime) to be scheduled around
+  * duration: duration of meeting to be scheduled
+  * attendees: set of attendees to attend new meeting
+  *
+  * Returns: a list of possible TimeRanges where all attendees are available 
+  */
   private static ArrayList<TimeRange> findOpenings(ArrayList<TimeRange> busy, long duration, Set<String> attendees) {
-    /*
-     * Finds all potential open TimeRanges for a meeting
-     * Parameters:
-     * busy: contains all busy TimeRanges to be scheduled around
-     * duration: duration of meeting to be scheduled
-     * attendees: set of attendees to attend new meeting
-     *
-     * Returns: a list of possible TimeRanges where all attendees are available 
-     */
     int startTime = 0; 
     int endTime = 0;
     TimeRange newRange;
@@ -111,11 +111,11 @@ public final class FindMeetingQuery {
     return openings;
   }
 
+  /*
+   * Adds opening to list if the opening is long enough
+   */
   private static void addOpening(ArrayList<TimeRange> openings, 
     TimeRange currRange, long duration) {
-      /*
-       * Adds opening to list if the opening is long enough
-       */
       if (currRange.duration() >= duration) {
         openings.add(currRange);
       } 
